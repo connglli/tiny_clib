@@ -1,6 +1,6 @@
+#include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "list.h"
 
 list_template(int, list_int_t, list_node_int_t);
 
@@ -8,46 +8,45 @@ int main() {
   list_int_t l;
   list_init(&l);
   list_node_int_t *n, *p;
-  void* v;
+  void *v;
   int i, s, x, *px;
 
   assert(list_nodesz(&l) == sizeof(list_node_int_t));
 
-  for(int i = 0; i < 5; i ++) {
+  for (int i = 0; i < 5; i++) {
     list_append(&l, i);
   }
 
-  for(int i = 5; i < 10; i ++) {
+  for (int i = 5; i < 10; i++) {
     n = list_node_make(list_node_int_t, i);
     assert(n->next == n && n->prev == n && n->data == i);
-    assert(list_node_next(n) == n && 
-      list_node_prev(n) == n && 
-      list_node_data(n) == i);
+    assert(list_node_next(n) == n && list_node_prev(n) == n &&
+           list_node_data(n) == i);
     list_appendn(&l, n);
   }
 
   s = list_size(&l);
   p = list_head(&l);
-  for(int i = 0; i < s; i ++, p = p->next) {
+  for (int i = 0; i < s; i++, p = p->next) {
     assert(p->data == i);
   }
 
   p = list_head(&l);
-  for(int i = 0; p != list_tail(&l); i ++, p = p->next) {
+  for (int i = 0; p != list_tail(&l); i++, p = p->next) {
     assert(p->data == i);
   }
 
   list_reverse(&l);
   s = list_size(&l);
   p = list_head(&l);
-  for(int i = 0; i < s; i ++, p = p->next) {
+  for (int i = 0; i < s; i++, p = p->next) {
     assert(p->data == s - i - 1);
   }
 
   list_reverse(&l);
   s = list_size(&l);
   p = list_head(&l);
-  for(int i = 0; i < s; i ++, p = p->next) {
+  for (int i = 0; i < s; i++, p = p->next) {
     assert(p->data == i);
   }
 
@@ -64,11 +63,11 @@ int main() {
 
   s = list_size(&l);
   p = list_head(&l);
-  for(int i = 0; i < s; i ++, p = p->next) {
+  for (int i = 0; i < s; i++, p = p->next) {
     if (i == 0) {
       assert(p->data == 2234);
     } else if (i == 1) {
-      assert(p->data == 1234);      
+      assert(p->data == 1234);
     } else {
       assert(p->data == i - 2);
     }
@@ -85,15 +84,15 @@ int main() {
 
   s = list_size(&l);
   p = list_head(&l);
-  for(int i = 0; i < s; i ++, p = p->next) {
+  for (int i = 0; i < s; i++, p = p->next) {
     if (i == 0) {
       assert(p->data == 2234);
     } else if (i == 1) {
-      assert(p->data == 1234);      
+      assert(p->data == 1234);
     } else if (i == 2) {
-      assert(p->data == 3344);      
+      assert(p->data == 3344);
     } else if (i == 3) {
-      assert(p->data == 4434);      
+      assert(p->data == 4434);
     } else {
       assert(p->data == i - 4);
     }
@@ -104,15 +103,15 @@ int main() {
     if (i == 0) {
       assert(p->data == 2234);
     } else if (i == 1) {
-      assert(p->data == 1234);      
+      assert(p->data == 1234);
     } else if (i == 2) {
-      assert(p->data == 3344);      
+      assert(p->data == 3344);
     } else if (i == 3) {
-      assert(p->data == 4434);      
+      assert(p->data == 4434);
     } else {
       assert(p->data == i - 4);
     }
-    i ++;
+    i++;
   }
 
   list_remove(&l, 0);
@@ -121,13 +120,13 @@ int main() {
 
   s = list_size(&l);
   p = list_head(&l);
-  for(int i = 0; i < s; i ++, p = p->next) {
+  for (int i = 0; i < s; i++, p = p->next) {
     if (i == 0) {
-      assert(p->data == 1234);      
+      assert(p->data == 1234);
     } else if (i == 1) {
-      assert(p->data == 3344);      
+      assert(p->data == 3344);
     } else if (i == 2) {
-      assert(p->data == 4434);      
+      assert(p->data == 4434);
     } else {
       assert(p->data == i - 3);
     }
@@ -138,11 +137,11 @@ int main() {
 
   s = list_size(&l);
   p = list_head(&l);
-  for(int i = 0; i < s; i ++, p = p->next) {
+  for (int i = 0; i < s; i++, p = p->next) {
     if (i == 0) {
-      assert(p->data == 1234);      
+      assert(p->data == 1234);
     } else if (i == 1) {
-      assert(p->data == 3344);      
+      assert(p->data == 3344);
     } else {
       assert(p->data == i - 2);
     }
@@ -153,7 +152,7 @@ int main() {
   assert(list_tail(&l)->data == 8);
 
   s = list_size(&l);
-  for(int i = 0; i < s; i ++) {
+  for (int i = 0; i < s; i++) {
     list_getn(&l, i, &p);
     if (i == 0) {
       assert(p->data == 1234);
@@ -169,7 +168,7 @@ int main() {
   assert(l.head->next->data == 1111);
 
   s = list_size(&l);
-  for(int i = 0; i < s; i ++) {
+  for (int i = 0; i < s; i++) {
     list_getn(&l, i, &p);
     if (i == 0) {
       assert(p->data == 1234);
@@ -181,7 +180,7 @@ int main() {
   }
 
   s = list_size(&l);
-  for(int i = 0; i < s; i ++) {
+  for (int i = 0; i < s; i++) {
     list_get(&l, i, &x);
     if (i == 0) {
       assert(x == 1234);
@@ -193,7 +192,7 @@ int main() {
   }
 
   s = list_size(&l);
-  for(int i = 0; i < s; i ++) {
+  for (int i = 0; i < s; i++) {
     list_getp(&l, i, &px);
     if (i == 0) {
       assert(*px == 1234);
@@ -209,7 +208,7 @@ int main() {
   assert(l.head->next->next->data == 1212);
 
   s = list_size(&l);
-  for(int i = 0; i < s; i ++) {
+  for (int i = 0; i < s; i++) {
     list_getn(&l, i, &p);
     if (i == 0) {
       assert(p->data == 1234);
@@ -224,7 +223,7 @@ int main() {
 
   list_swap(&l, 1, 2);
   s = list_size(&l);
-  for(int i = 0; i < s; i ++) {
+  for (int i = 0; i < s; i++) {
     list_getn(&l, i, &p);
     if (i == 0) {
       assert(p->data == 1234);

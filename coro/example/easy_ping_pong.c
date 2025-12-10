@@ -5,7 +5,7 @@ CORO_EX(ping, args) {
   do {
     printf("ping\n");
     yield();
-  } while(1);
+  } while (1);
 
   return NULL;
 }
@@ -14,7 +14,7 @@ CORO_EX(pong, args) {
   do {
     printf("pong\n");
     yield();
-  } while(1);
+  } while (1);
 
   return NULL;
 }

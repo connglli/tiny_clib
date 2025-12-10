@@ -1,7 +1,7 @@
-#include <stdlib.h>
-#include <math.h>
-#include <assert.h>
 #include "bloom-filter.h"
+#include <assert.h>
+#include <math.h>
+#include <stdlib.h>
 
 /**
  * make_bloom_filter makes a bloom_filter_t
@@ -23,20 +23,23 @@ bloom_filter_t make_bloom_filter(int n, double e) {
  */
 void bloom_filter_init(bloom_filter_t *bf, int n, double e) {
   static hash_f_t available_hashes[] = {
-    hash_rs,  hash_js, hash_pjw, hash_bkdr,   hash_sdbm,
-    hash_djb, hash_ap, hash_crc, hash_simple, hash_elf
-  };
+      hash_rs,  hash_js, hash_pjw, hash_bkdr,   hash_sdbm,
+      hash_djb, hash_ap, hash_crc, hash_simple, hash_elf};
   static int nr_hashes = sizeof(available_hashes) / sizeof(hash_f_t);
-  
+
   int m = ceil(1.44 * n * log2(1 / e));
   int k = ceil(((double)m / n) * log(2));
-  if (k > nr_hashes) { k = nr_hashes; }
+  if (k > nr_hashes) {
+    k = nr_hashes;
+  }
 
   // initialize hashes
   bf->hashes = malloc(k * sizeof(hash_f_t));
-  if (NULL == bf->hashes) { assert(0); }
+  if (NULL == bf->hashes) {
+    assert(0);
+  }
 
-  for (int i = 0; i < k; i ++) {
+  for (int i = 0; i < k; i++) {
     bf->hashes[i] = available_hashes[i];
   }
 
@@ -58,15 +61,15 @@ void bloom_filter_init(bloom_filter_t *bf, int n, double e) {
  * @return      1 if contains else 0
  */
 int bloom_filter_contain(bloom_filter_t *bf, void *o, int size) {
-  bitmap_t *bm     = &bf->bitmap;
+  bitmap_t *bm = &bf->bitmap;
   hash_f_t *hashes = bf->hashes;
-  int       k      = bf->k;
-  int       m      = bf->m;
+  int k = bf->k;
+  int m = bf->m;
 
   int r = 1;
 
-  for (int i = 0; r && (i < k); i ++) {
-    r = r && bitmap_get(bm, (hashes[i]((const char*)o, size)) % m);
+  for (int i = 0; r && (i < k); i++) {
+    r = r && bitmap_get(bm, (hashes[i]((const char *)o, size)) % m);
   }
 
   return r;
@@ -79,13 +82,13 @@ int bloom_filter_contain(bloom_filter_t *bf, void *o, int size) {
  * @param size size of this object o
  */
 void bloom_filter_enter(bloom_filter_t *bf, void *o, int size) {
-  bitmap_t *bm     = &bf->bitmap;
+  bitmap_t *bm = &bf->bitmap;
   hash_f_t *hashes = bf->hashes;
-  int       k      = bf->k;
-  int       m      = bf->m;
+  int k = bf->k;
+  int m = bf->m;
 
-  for (int i = 0; i < k; i ++) {
-    bitmap_set(bm, (hashes[i]((const char*)o, size)) % m);
+  for (int i = 0; i < k; i++) {
+    bitmap_set(bm, (hashes[i]((const char *)o, size)) % m);
   }
 }
 

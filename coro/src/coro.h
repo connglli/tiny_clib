@@ -13,7 +13,7 @@ typedef int coro_id_t;
 /**
  * coro_ex_t is the function executed by coroutine
  */
-typedef void* (*coro_ex_t)(void*);
+typedef void *(*coro_ex_t)(void *);
 
 /**
  * CORO_EX defines a coro_ex_t
@@ -21,7 +21,7 @@ typedef void* (*coro_ex_t)(void*);
  * @param  ex_args args of this coro_ex_t
  * @return         definition of this coro_ex_t
  */
-#define CORO_EX(ex_name, ex_args) void* ex_name(void *ex_args)
+#define CORO_EX(ex_name, ex_args) void *ex_name(void *ex_args)
 
 /**
  * coro creates and queues a coroutine of ex, does not run immediately
@@ -32,7 +32,7 @@ typedef void* (*coro_ex_t)(void*);
 coro_id_t coro(coro_ex_t ex, void *args);
 
 /**
- * yield yields CPU to other coroutines, just like the key word `yield` 
+ * yield yields CPU to other coroutines, just like the key word `yield`
  * in ECMA2015+ or python.
  */
 void yield();
@@ -57,10 +57,10 @@ coro_id_t self();
  * coro_msg_t represents the message used for coroutine's communication
  */
 typedef struct coro_msg_t {
-  coro_id_t  from; // sender
-  coro_id_t  to;   // receiver
-  int        type; // type of this message, positive for valid ones else invalid
-  void      *data; // data of this message
+  coro_id_t from; // sender
+  coro_id_t to;   // receiver
+  int type;       // type of this message, positive for valid ones else invalid
+  void *data;     // data of this message
 } coro_msg_t;
 
 /**
@@ -73,13 +73,14 @@ typedef struct coro_msg_t {
 int send(coro_id_t cid, int type, void *data);
 
 /**
- * receive receives a message from other coroutine: 
+ * receive receives a message from other coroutine:
  *  if there is a message, then return immediately;
  *  else if timeout > 0, then blocked until there is a message within timeout;
  *  else if timeout = 0, then return immediately;
  *  else blocked until there is a message
  * @param  timeout blocked time(millisecond)
- * @return         message received(or the message type will be a negative number)
+ * @return         message received(or the message type will be a negative
+ * number)
  */
 coro_msg_t receive(long long timeout);
 

@@ -2,10 +2,8 @@
 
 /**
  * array_expand_to_cap expands this array to capacity cap,
- * if size is greater than cap or if capacity is already greater than or equal to cap, 
- *   then nothing happened,
- * else 
- *   expand array to capacity cap
+ * if size is greater than cap or if capacity is already greater than or equal
+ * to cap, then nothing happened, else expand array to capacity cap
  * @param  data     ptr to the memory
  * @param  size     ptr to size of the contained items in array
  * @param  capacity ptr to capacity of the array
@@ -13,15 +11,21 @@
  * @param  cap      capacity to be expanded to
  * @return          0 for success, and -1 for failed
  */
-int _array_expand_to_cap(char** data, int* size, int* capacity, int itemsz,
+int _array_expand_to_cap(char **data, int *size, int *capacity, int itemsz,
                          int cap) {
-  if ((*size > cap) || (*capacity >= cap)) { return 0; } 
+  if ((*size > cap) || (*capacity >= cap)) {
+    return 0;
+  }
 
-  void* ptr;
+  void *ptr;
 
   ptr = realloc(*data, cap * itemsz);
-  if (ptr == NULL) { return -1; }
-  else { *data = ptr; *capacity = cap; }
+  if (ptr == NULL) {
+    return -1;
+  } else {
+    *data = ptr;
+    *capacity = cap;
+  }
 
   return 0;
 }
@@ -34,10 +38,9 @@ int _array_expand_to_cap(char** data, int* size, int* capacity, int itemsz,
  * @param  itemsz   size of an array item
  * @return          0 for success, and -1 for failed
  */
-int _array_force_expand(char** data, int* size, int* capacity, int itemsz) {
-  return _array_expand_to_cap(
-    data, size, capacity, itemsz, 
-    (*capacity == 0) ? 1 : (*capacity << 1));
+int _array_force_expand(char **data, int *size, int *capacity, int itemsz) {
+  return _array_expand_to_cap(data, size, capacity, itemsz,
+                              (*capacity == 0) ? 1 : (*capacity << 1));
 }
 
 /**
@@ -48,8 +51,10 @@ int _array_force_expand(char** data, int* size, int* capacity, int itemsz) {
  * @param  itemsz   size of an array item
  * @return          0 for success, and -1 for failed
  */
-int _array_expand(char** data, int* size, int* capacity, int itemsz) {
-  if (*size < *capacity) { return 0; }
+int _array_expand(char **data, int *size, int *capacity, int itemsz) {
+  if (*size < *capacity) {
+    return 0;
+  }
   return _array_force_expand(data, size, capacity, itemsz);
 }
 
@@ -61,16 +66,20 @@ int _array_expand(char** data, int* size, int* capacity, int itemsz) {
  * @param  itemsz   size of an array item
  * @return          0 for success, and -1 for failed
  */
-int _array_reverse(char** data, int* size, int* capacity, int itemsz) {
-  if (*size == 0 || *size == 1) { return 0; }
+int _array_reverse(char **data, int *size, int *capacity, int itemsz) {
+  if (*size == 0 || *size == 1) {
+    return 0;
+  }
 
-  void* buf = malloc(itemsz);
-  if (buf == NULL) { return -1; }
-  void* head_ptr = *data;
-  void* tail_ptr = *data + (*size - 1) * itemsz;
+  void *buf = malloc(itemsz);
+  if (buf == NULL) {
+    return -1;
+  }
+  void *head_ptr = *data;
+  void *tail_ptr = *data + (*size - 1) * itemsz;
   int half = *size / 2;
 
-  while(head_ptr < tail_ptr) {
+  while (head_ptr < tail_ptr) {
     memmove(buf, head_ptr, itemsz);
     memmove(head_ptr, tail_ptr, itemsz);
     memmove(tail_ptr, buf, itemsz);
@@ -91,15 +100,21 @@ int _array_reverse(char** data, int* size, int* capacity, int itemsz) {
  * @param  itemsz   size of an array item
  * @return          0 for success, and -1 for failed
  */
-int _array_shrink_to_fit(char** data, int* size, int* capacity, int itemsz) {
-  if (*size == *capacity) { return 0; }
+int _array_shrink_to_fit(char **data, int *size, int *capacity, int itemsz) {
+  if (*size == *capacity) {
+    return 0;
+  }
 
-  void* ptr;
+  void *ptr;
   int n;
 
   ptr = realloc(*data, (*size) * itemsz);
-  if (ptr == NULL) { return -1; }
-  else { *data = ptr; *capacity = *size; }
+  if (ptr == NULL) {
+    return -1;
+  } else {
+    *data = ptr;
+    *capacity = *size;
+  }
 
   return 0;
 }
@@ -114,14 +129,18 @@ int _array_shrink_to_fit(char** data, int* size, int* capacity, int itemsz) {
  * @param  idx2     index of the other item
  * @return          0 for success, and -1 for failed
  */
-int _array_swap(char** data, int* size, int* capacity, int itemsz,
-                   int idx1, int idx2) {
-  if (idx1 == idx2) { return 0; }
+int _array_swap(char **data, int *size, int *capacity, int itemsz, int idx1,
+                int idx2) {
+  if (idx1 == idx2) {
+    return 0;
+  }
 
-  void* buf = malloc(itemsz);
-  if (buf == NULL) { return -1; }
-  void* ptr1 = *data + idx1 * itemsz;
-  void* ptr2 = *data + idx2 * itemsz;
+  void *buf = malloc(itemsz);
+  if (buf == NULL) {
+    return -1;
+  }
+  void *ptr1 = *data + idx1 * itemsz;
+  void *ptr2 = *data + idx2 * itemsz;
 
   memmove(buf, ptr1, itemsz);
   memmove(ptr1, ptr2, itemsz);
@@ -133,10 +152,10 @@ int _array_swap(char** data, int* size, int* capacity, int itemsz,
 }
 
 /**
- * _array_move moves the array item from from_idx to to_idx, 
- * if from_idx is same as to_idx, 
+ * _array_move moves the array item from from_idx to to_idx,
+ * if from_idx is same as to_idx,
  *   nothing will happen,
- * if from_idx is less than to_idx, size will be automatically increased, 
+ * if from_idx is less than to_idx, size will be automatically increased,
  *   and all in them are set to 0
  * or decreased.
  * @param  data     ptr to the memory
@@ -147,22 +166,26 @@ int _array_swap(char** data, int* size, int* capacity, int itemsz,
  * @param  to_idx   index of end point
  * @return          0 for success, and -1 for failed
  */
-int _array_move(char** data, int* size, int* capacity, int itemsz, 
-                int from_idx, int to_idx) {
-  if (from_idx == to_idx) { return 1; }
+int _array_move(char **data, int *size, int *capacity, int itemsz, int from_idx,
+                int to_idx) {
+  if (from_idx == to_idx) {
+    return 1;
+  }
 
   if ((to_idx > from_idx) && (to_idx - from_idx + *size >= *capacity)) {
-    if(_array_force_expand(data, size, capacity, itemsz) == -1) {
+    if (_array_force_expand(data, size, capacity, itemsz) == -1) {
       return -1;
     }
   }
-  
-  void* from_ptr = *data + from_idx * itemsz;
-  void* to_ptr = *data + to_idx * itemsz;
+
+  void *from_ptr = *data + from_idx * itemsz;
+  void *to_ptr = *data + to_idx * itemsz;
   int memsz = (*size - from_idx) * itemsz;
 
   memmove(to_ptr, from_ptr, memsz);
-  if (from_ptr < to_ptr) { memset(from_ptr, 0, (int)(to_ptr - from_ptr)); }
+  if (from_ptr < to_ptr) {
+    memset(from_ptr, 0, (int)(to_ptr - from_ptr));
+  }
   *size += (to_idx - from_idx);
 
   return 0;

@@ -4,23 +4,25 @@
 #include <stdlib.h>
 
 // __GENT_CONTEXT_T is the internal context type of a generator
-#define __GENT_CONTEXT_T         __gent_context_t
+#define __GENT_CONTEXT_T __gent_context_t
 // __GENT_STATE_PLACEHOLDER is the placeholder for the internal state
 #define __GENT_STATE_PLACEHOLDER __gent_state_placeholder
 // __GENT_ARG_CONTEXT is the first arg of any GENT
-#define __GENT_ARG_CONTEXT       __gent_arg_context
+#define __GENT_ARG_CONTEXT __gent_arg_context
 
 /**
  * gent_handler_t is the handler of a generator
  */
-typedef void* gent_handler_t;
+typedef void *gent_handler_t;
 
 /**
  * GENT_HANDLER_INIT initializes a gent_handler_t
  * @param  hdlr hdlr to be initialized
  */
 #define GENT_HANDLER_INIT(hdlr)                                                \
-  do { *(hdlr) = NULL; } while(0)
+  do {                                                                         \
+    *(hdlr) = NULL;                                                            \
+  } while (0)
 
 /**
  * GENT declares an generator with return type return_t, generator name name,
@@ -44,7 +46,8 @@ typedef void* gent_handler_t;
  * @param  ctx context to be declared
  */
 #define GENT_CONTEXT_END(ctx)                                                  \
-  } *ctx = *(struct __GENT_CONTEXT_T**)__GENT_ARG_CONTEXT
+  }                                                                            \
+  *ctx = *(struct __GENT_CONTEXT_T **)__GENT_ARG_CONTEXT
 
 /**
  * GENT_EX_BEGIN is the start notation of the ex block on context ctx
@@ -55,7 +58,8 @@ typedef void* gent_handler_t;
     (ctx) = *__GENT_ARG_CONTEXT = malloc(sizeof(struct __GENT_CONTEXT_T));     \
     (ctx)->__GENT_STATE_PLACEHOLDER = __LINE__;                                \
   }                                                                            \
-  switch((ctx)->__GENT_STATE_PLACEHOLDER) { case __LINE__:
+  switch ((ctx)->__GENT_STATE_PLACEHOLDER) {                                   \
+  case __LINE__:
 
 /**
  * GENT_YIELD does three things:
@@ -66,11 +70,11 @@ typedef void* gent_handler_t;
  */
 #define GENT_YIELD(v)                                                          \
   do {                                                                         \
-    (*(struct __GENT_CONTEXT_T**)__GENT_ARG_CONTEXT)->__GENT_STATE_PLACEHOLDER \
-      = __LINE__;                                                              \
+    (*(struct __GENT_CONTEXT_T **)__GENT_ARG_CONTEXT)                          \
+        ->__GENT_STATE_PLACEHOLDER = __LINE__;                                 \
     return (v);                                                                \
-    case __LINE__:;                                                            \
-  } while(0)
+  case __LINE__:;                                                              \
+  } while (0)
 
 /**
  * GENT_EX_END is the end notation of the ex block
@@ -82,14 +86,14 @@ typedef void* gent_handler_t;
  *   1. you can call GENT_RETURN at any place in an ex block
  *   2. you must call GENT_RETURN whenever you terminates a generator, even
  *      though you are out of the ex block
- * @param  v 
+ * @param  v
  * @return   [description]
  */
 #define GENT_RETURN(v)                                                         \
   do {                                                                         \
-    free(*(struct __GENT_CONTEXT_T**)__GENT_ARG_CONTEXT);                      \
-    *(struct __GENT_CONTEXT_T**)__GENT_ARG_CONTEXT = 0;                        \
+    free(*(struct __GENT_CONTEXT_T **)__GENT_ARG_CONTEXT);                     \
+    *(struct __GENT_CONTEXT_T **)__GENT_ARG_CONTEXT = 0;                       \
     return (v);                                                                \
-  } while(0)
+  } while (0)
 
 #endif

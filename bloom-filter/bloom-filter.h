@@ -9,16 +9,16 @@
  */
 typedef struct bloom_filter_t {
   /* parameters */
-  int       m; // number of bits
-  int       n; // number of elements
-  int       k; // number of hash functions
-  double    e; // error rate
+  int m;    // number of bits
+  int n;    // number of elements
+  int k;    // number of hash functions
+  double e; // error rate
 
   /* hashes */
   hash_f_t *hashes;
 
   /* bitmap */
-  bitmap_t  bitmap;
+  bitmap_t bitmap;
 } bloom_filter_t;
 
 /**
@@ -44,7 +44,7 @@ void bloom_filter_init(bloom_filter_t *bf, int n, double e);
  * @param  size size of this object o
  * @return      1 if contains else 0
  */
-int bloom_filter_contain(bloom_filter_t *bf, void * o, int size);
+int bloom_filter_contain(bloom_filter_t *bf, void *o, int size);
 
 /**
  * bloom_filter_enter add an object o of size size
@@ -52,7 +52,7 @@ int bloom_filter_contain(bloom_filter_t *bf, void * o, int size);
  * @param o    ptr to a object to be entered
  * @param size size of this object o
  */
-void bloom_filter_enter(bloom_filter_t *bf, void * o, int size);
+void bloom_filter_enter(bloom_filter_t *bf, void *o, int size);
 
 /**
  * bloom_filter_deinit deinitializes a bloom filter

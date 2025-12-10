@@ -11,7 +11,7 @@
 int coro_io_set_nonblock(int fd);
 
 /**
- * coro_io_read read nbyte bytes data from fd to buf non-blockingly, 
+ * coro_io_read read nbyte bytes data from fd to buf non-blockingly,
  * during which, cpu will be automatically yielded
  * @param  fd    file descriptor
  * @param  buf   buffer to put data

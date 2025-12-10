@@ -13,7 +13,7 @@ int main() {
   assert(pool_capacity(&p) == 20);
   assert(p.alive_head == -1 && p.alive_tail == -1 && p.alive_size == 0);
   assert(p.dead_head == 0 && pool_dead_size(&p) == 20);
-  for(int i = 1; i < 19; i ++) {
+  for (int i = 1; i < 19; i++) {
     assert(pool_is_fish_in_pool(&p, i));
     assert(pool_fish_state(&p, i) == POOL_FISH_STATE_DEAD);
     assert(!pool_is_fish_alive(&p, i));
@@ -38,7 +38,8 @@ int main() {
   assert(pool_get(&p, 0) == 1024);
   assert(pool_is_fish_alive(&p, f));
   assert(pool_fish_state(&p, f) == POOL_FISH_STATE_ALIVE);
-  assert((p.fishes[f].data = c) && (p.fishes[f].prev = -1) && (p.fishes[f].next = -1));
+  assert((p.fishes[f].data = c) && (p.fishes[f].prev = -1) &&
+         (p.fishes[f].next = -1));
   assert(p.alive_head == 0 && p.alive_tail == 0 && p.alive_size == 1);
   assert(p.dead_head == 1 && p.dead_size == 19);
   assert(pool_capacity(&p) == 20);
@@ -59,7 +60,8 @@ int main() {
   pool_revive(&p, f, c);
   assert(pool_is_fish_alive(&p, f));
   assert(pool_fish_state(&p, f) == POOL_FISH_STATE_ALIVE);
-  assert((p.fishes[f].data == c) && (p.fishes[f].prev == 0) && (p.fishes[f].next == -1));
+  assert((p.fishes[f].data == c) && (p.fishes[f].prev == 0) &&
+         (p.fishes[f].next == -1));
   assert(p.alive_head == 0 && p.alive_tail == 1 && p.alive_size == 2);
   assert(p.dead_head == 2 && p.dead_size == 18);
   assert(pool_capacity(&p) == 20);

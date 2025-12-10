@@ -1,8 +1,8 @@
+#include "bitmap.h"
+#include <assert.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <assert.h>
-#include "bitmap.h"
 
 // BITMAP_GET_BIT_INFO gets idx-th bit info of bm to (d, r)
 // bm  bm  ptr to a bitmap_t
@@ -10,11 +10,11 @@
 // d   index of container
 // r   offset in d-th container
 #define BITMAP_GET_BIT_INFO(bm, idx, d, r)                                     \
- do {                                                                          \
-  (idx) = bitmap_safe_index((bm), (idx));                                      \
-  (d)   = (idx) / BITMAP_NR_BITS_PER_CONTAINER;                                \
-  (r)   = (idx) % BITMAP_NR_BITS_PER_CONTAINER;                                \
-} while(0)
+  do {                                                                         \
+    (idx) = bitmap_safe_index((bm), (idx));                                    \
+    (d) = (idx) / BITMAP_NR_BITS_PER_CONTAINER;                                \
+    (r) = (idx) % BITMAP_NR_BITS_PER_CONTAINER;                                \
+  } while (0)
 
 /**
  * make_bitmap makes a bitmap
@@ -35,14 +35,16 @@ bitmap_t make_bitmap(int size) {
 void bitmap_init(bitmap_t *bm, int size) {
   int nr_container = BITMAP_GET_NR_CONTAINER(size);
   bm->containers = malloc(nr_container * sizeof(bitmap_container_t));
-  if (NULL == bm->containers) { assert(0); }
+  if (NULL == bm->containers) {
+    assert(0);
+  }
   memset(bm->containers, 0, nr_container * sizeof(bitmap_container_t));
   bm->size = size;
 }
 
 /**
  * bitmap_get gets the idx-th bit value of bm
- * @param  bm  ptr to a bitmap 
+ * @param  bm  ptr to a bitmap
  * @param  idx index to be queried
  * @return     value of idx-th bit: 0 or 1
  */
@@ -54,7 +56,7 @@ int bitmap_get(bitmap_t *bm, int idx) {
 
 /**
  * bitmap_set set the idx-th bit to 1
- * @param bm  ptr to a bitmap 
+ * @param bm  ptr to a bitmap
  * @param idx index to be queried
  */
 void bitmap_set(bitmap_t *bm, int idx) {
@@ -65,7 +67,7 @@ void bitmap_set(bitmap_t *bm, int idx) {
 
 /**
  * bitmap_clear clears the idx-th bit(to 0)
- * @param bm  ptr to a bitmap 
+ * @param bm  ptr to a bitmap
  * @param idx index to be queried
  */
 void bitmap_clear(bitmap_t *bm, int idx) {
@@ -76,41 +78,44 @@ void bitmap_clear(bitmap_t *bm, int idx) {
 
 /**
  * bitmap_expand_to_cap expands a bitmap_t to cap
- * @param bm  ptr to a bitmap 
+ * @param bm  ptr to a bitmap
  * @param cap capacity to be expanded
  * @return    0 if succeeded else -1
  */
 int bitmap_expand_to_cap(bitmap_t *bm, int cap) {
-  if (cap <= bitmap_size(bm)) { return 0; }
+  if (cap <= bitmap_size(bm)) {
+    return 0;
+  }
 
-  int nr_container     = BITMAP_GET_NR_CONTAINER(cap);
+  int nr_container = BITMAP_GET_NR_CONTAINER(cap);
   int old_nr_container = BITMAP_GET_NR_CONTAINER(bm->size);
-  
+
   if (nr_container == old_nr_container) {
     bm->size = cap;
     return 0;
   }
 
-  bitmap_container_t *p = realloc(bm->containers,
-                                  nr_container * sizeof(bitmap_container_t));
-  if (NULL == p) { return -1; }
-  memset(p + (nr_container - old_nr_container),
-         0,
+  bitmap_container_t *p =
+      realloc(bm->containers, nr_container * sizeof(bitmap_container_t));
+  if (NULL == p) {
+    return -1;
+  }
+  memset(p + (nr_container - old_nr_container), 0,
          (nr_container - old_nr_container) * sizeof(bitmap_container_t));
   bm->containers = p;
-  bm->size       = cap;
+  bm->size = cap;
 
   return 0;
 }
 
 /**
  * bitmap_deinit deinitialzes a bitmap_t
- * @param bm ptr to a bitmap 
+ * @param bm ptr to a bitmap
  */
 void bitmap_deinit(bitmap_t *bm) {
   if (NULL != bm->containers) {
     free(bm->containers);
     bm->containers = NULL;
-    bm->size       = 0;
+    bm->size = 0;
   }
 }

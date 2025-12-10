@@ -1,31 +1,29 @@
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
 #include "hash-map.h"
+#include <assert.h>
+#include <math.h>
+#include <stdio.h>
 
 typedef struct test_value_t {
   double value;
 } test_value_t;
 
-hash_map_template(test_value_t,
-                  test_hash_map_entry_t,
-                  test_hash_map_t);
+hash_map_template(test_value_t, test_hash_map_entry_t, test_hash_map_t);
 
 int main() {
   test_hash_map_t hm;
-  char            key[16];
+  char key[16];
 
   hash_map_init(&hm);
   assert(0 == hash_map_size(&hm));
   assert(0 == hash_map_load_factor(&hm));
 
-  for (int i = 0; i < HASH_MAP_DEFAULT_NR_BUCKETS; i ++) {
+  for (int i = 0; i < HASH_MAP_DEFAULT_NR_BUCKETS; i++) {
     assert(NULL == hm.buckets[i]);
   }
 
-  for (int i = 0; i < 100; i ++) {
+  for (int i = 0; i < 100; i++) {
     sprintf(key, "%d", i);
-    test_value_t value = { (double)i / 100 };
+    test_value_t value = {(double)i / 100};
 
     assert(hash_map_contain(&hm, key) == 0);
 
@@ -39,13 +37,14 @@ int main() {
 
   assert(100 == hash_map_size(&hm));
 
-  test_hash_map_entry_t* e;
+  test_hash_map_entry_t *e;
   hash_map_foreach_e(&hm, e) {
-    int k; sscanf(hash_map_entry_key(e), "%d", &k);
+    int k;
+    sscanf(hash_map_entry_key(e), "%d", &k);
     assert(fabs((double)k / 100 - hash_map_entry_value(e).value) < 1e-6);
   }
 
-  for (int i = 0; i < 100; i ++) {
+  for (int i = 0; i < 100; i++) {
     sprintf(key, "%d", i);
 
     assert(hash_map_contain(&hm, key) == 1);

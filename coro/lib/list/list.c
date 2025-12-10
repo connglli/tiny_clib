@@ -7,9 +7,11 @@
  * @param  xsize  size of x
  * @return        allocated and initialized node
  */
-void* _list_node_make(int nodesz, void* x, int xsize) {
-  void* node = malloc(nodesz);
-  if (node == NULL) { return node; }
+void *_list_node_make(int nodesz, void *x, int xsize) {
+  void *node = malloc(nodesz);
+  if (node == NULL) {
+    return node;
+  }
 
   *_list_node_unsafe_nextp(node) = node;
   *_list_node_unsafe_prevp(node) = node;
@@ -27,8 +29,8 @@ void* _list_node_make(int nodesz, void* x, int xsize) {
  * @param  node   node to be appended
  * @return        last index
  */
-int _list_unsafe_appendn(char** head, char** tail, int* size, int nodesz,
-                         void* node) {
+int _list_unsafe_appendn(char **head, char **tail, int *size, int nodesz,
+                         void *node) {
   return _list_unsafe_insertn(head, tail, size, nodesz, *size, node);
 }
 
@@ -41,8 +43,8 @@ int _list_unsafe_appendn(char** head, char** tail, int* size, int nodesz,
  * @param  node   node to be prepended
  * @return        0
  */
-int _list_unsafe_prependn(char** head, char** tail, int* size, int nodesz,
-                          void* node) {
+int _list_unsafe_prependn(char **head, char **tail, int *size, int nodesz,
+                          void *node) {
   return _list_unsafe_insertn(head, tail, size, nodesz, -1, node);
 }
 
@@ -59,8 +61,8 @@ int _list_unsafe_prependn(char** head, char** tail, int* size, int nodesz,
  * @param  node   node to be inserted
  * @return        idx of node
  */
-int _list_unsafe_insertn(char** head, char** tail, int* size, int nodesz,
-                         int idx, void* node) {
+int _list_unsafe_insertn(char **head, char **tail, int *size, int nodesz,
+                         int idx, void *node) {
   if (*size == 0) {
     *_list_node_unsafe_nextp(node) = node;
     *_list_node_unsafe_prevp(node) = node;
@@ -82,7 +84,7 @@ int _list_unsafe_insertn(char** head, char** tail, int* size, int nodesz,
     inserted_idx = *size;
   } else {
     next = *head;
-    for (int i = 0; i != idx; i ++) { // normally insert it
+    for (int i = 0; i != idx; i++) { // normally insert it
       next = *_list_node_unsafe_nextp(next);
     }
     prev = *_list_node_unsafe_prevp(next);
@@ -94,9 +96,13 @@ int _list_unsafe_insertn(char** head, char** tail, int* size, int nodesz,
   *_list_node_unsafe_prevp(node) = prev;
   *_list_node_unsafe_nextp(prev) = node;
   *_list_node_unsafe_prevp(next) = node;
-  if (idx < 0) { *head = node; } else if (idx >= *size) { *tail = node; }
+  if (idx < 0) {
+    *head = node;
+  } else if (idx >= *size) {
+    *tail = node;
+  }
 
-  (*size) ++;
+  (*size)++;
 
   return inserted_idx;
 }
@@ -111,20 +117,28 @@ int _list_unsafe_insertn(char** head, char** tail, int* size, int nodesz,
  * @param  idx2   the other index
  * @return        0 if succeeded else -1
  */
-int _list_swap(char** head, char** tail, int* size, int nodesz,
-               int idx1, int idx2) {
-  if (idx1 == idx2) { return 0; }
+int _list_swap(char **head, char **tail, int *size, int nodesz, int idx1,
+               int idx2) {
+  if (idx1 == idx2) {
+    return 0;
+  }
 
-  int xsize = nodesz - 2 * sizeof(void*);
+  int xsize = nodesz - 2 * sizeof(void *);
   int min_idx = idx1 < idx2 ? idx1 : idx2;
   int max_idx = idx1 < idx2 ? idx2 : idx1;
   void *min_ptr = NULL, *max_ptr = NULL, *n = *head;
-  void *buf = (void*)malloc(xsize);
-  if (buf == NULL) { return -1; }
+  void *buf = (void *)malloc(xsize);
+  if (buf == NULL) {
+    return -1;
+  }
 
-  for (int i = 0; i < *size; i ++, n = *_list_node_unsafe_nextp(n)) {
-    if (i == min_idx) { min_ptr = _list_node_unsafe_datap(n); }
-    else if (i == max_idx) { max_ptr = _list_node_unsafe_datap(n); break; }
+  for (int i = 0; i < *size; i++, n = *_list_node_unsafe_nextp(n)) {
+    if (i == min_idx) {
+      min_ptr = _list_node_unsafe_datap(n);
+    } else if (i == max_idx) {
+      max_ptr = _list_node_unsafe_datap(n);
+      break;
+    }
   }
 
   memcpy(buf, min_ptr, xsize);
