@@ -1,26 +1,26 @@
-# tlfc - tiny library for c
+# tiny_clib - tiny library for c
 
 This is a tiny lib for c, implemented easily, which you can ***care nothing about type casting***.
 
-## content
+## Content
 
 This lib includes some data structures as well as some easy but often used functions.
 
-+ [x] [dynamic array - array](https://github.com/Leetsong/tlfc/tree/master/array)
-+ [x] [linked list   - list](https://github.com/Leetsong/tlfc/tree/master/list)
-+ [x] [pool          - pool](https://github.com/Leetsong/tlfc/tree/master/pool)
-+ [x] [hash          - hash](https://github.com/Leetsong/tlfc/tree/master/hash)
-+ [ ] [tree map      - tree_map]()
-+ [x] [hash map      - hash_map](https://github.com/Leetsong/tlfc/tree/master/map/hash-map)
-+ [x] [bitmap        - bitmap](https://github.com/Leetsong/tlfc/tree/master/bitmap)
-+ [x] [bloom filter  - bloom_filter](https://github.com/Leetsong/tlfc/tree/master/bloom-filter)
-+ [x] [gent - generator](https://github.com/Leetsong/tlfc/tree/master/coro)
-+ [x] [coroutine     - coro](https://github.com/Leetsong/tlfc/tree/master/coro)
-+ [x] [string utils  - strutil](https://github.com/Leetsong/tlfc/tree/master/strutil)
-+ [x] [logger utils  - logger](https://github.com/Leetsong/tlfc/tree/master/logger)
-+ [x] [debug utils   - debug](https://github.com/Leetsong/tlfc/tree/master/debug)
++ [x] [dynamic array - array](array)
++ [x] [linked list   - list](list)
++ [x] [pool          - pool](pool)
++ [x] [hash          - hash](hash)
++ [ ] [tree map      - tree_map](.)
++ [x] [hash map      - hash_map](map/hash-map)
++ [x] [bitmap        - bitmap](bitmap)
++ [x] [bloom filter  - bloom_filter](bloom-filter)
++ [x] [generator     - gent](gent)
++ [x] [coroutine     - coro](coro)
++ [x] [string utils  - strutil](strutil)
++ [x] [logger utils  - logger](logger)
++ [x] [debug utils   - debug](debug)
 
-## api intro
+## API Intro
 
 The api of tlfc is all the same among these data structures:
 
@@ -34,11 +34,11 @@ The api of tlfc is all the same among these data structures:
 
 In almost all api, if your access is invalid, the program will crash.
 
-## examples
+## Examples
 
 You can check source code of coro, it uses pool and list.
 
-## thanks
+## Thanks
 
 + [rxi/vec](https://github.com/rxi/vec)
 + [clibs/list](https://github.com/clibs/list)
